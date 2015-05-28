@@ -33,7 +33,7 @@ function! s:Lookup(word)
     let l:word = substitute(a:word, '"', '', 'g')
     1,$d
     echo "Requesting thesaurus.com to look up the word \"" . l:word . "\"..."
-    exec ":silent 0r !" . s:path . "/thesaurus-lookup.sh " . shellescape(l:word)
+    exec ":silent 0r !python" . s:path . "/thesaurus-lookup.py " . shellescape(l:word)
     exec ":silent g/\\vrelevant-\\d+/,/^$/!" . s:sort . " -t ' ' -k 1,1r -k 2,2"
     silent g/\vrelevant-\d+ /s///
     silent! g/^Synonyms/+;/^$/-2s/$\n/, /
