@@ -1,5 +1,9 @@
 # Vim Online Thesaurus
 
+**The [original version](https://github.com/beloglazov/vim-online-thesaurus) came with
+only Unix support. This version adds `thesaurus-lookup.py` adds cross-platform support
+for this plugin (specially for _Windows_).**
+
 This is a plugin for Vim allowing you to look up words in an online thesaurus,
 which is at the moment configured to be http://thesaurus.com/
 
