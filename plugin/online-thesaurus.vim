@@ -1,6 +1,6 @@
 " Vim plugin for looking up words in an online thesaurus
 " Author:       Anton Beloglazov <http://beloglazov.info/>
-" Version:      0.2.3
+" Version:      0.2.4
 " Original idea and code: Nick Coleman <http://www.nickcoleman.org/>
 " Cross-platform support via `thesaurus-lookup.py`: Babil Golam Sarwar
 " (gsbabil@gmail.com)
