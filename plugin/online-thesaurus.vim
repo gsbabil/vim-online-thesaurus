@@ -17,9 +17,11 @@ let &shell = '/bin/sh'
 
 let s:path = shellescape(expand("<sfile>:p:h"))
 
-silent let s:sort = system('if command -v /bin/sort > /dev/null; then'
-            \ . ' printf /bin/sort;'
-            \ . ' else printf sort; fi')
+if has("unix")
+    silent let s:sort = system('if command -v /bin/sort > /dev/null; then'
+         \ . ' printf /bin/sort;'
+         \ . ' else printf sort; fi')
+endif
 
 function! s:Lookup(word)
     silent! let l:thesaurus_window = bufwinnr('^thesaurus$')
@@ -33,18 +35,27 @@ function! s:Lookup(word)
     setlocal noswapfile nobuflisted nospell nowrap modifiable
     setlocal buftype=nofile bufhidden=hide
     let l:word = substitute(a:word, '"', '', 'g')
-    1,$d
-    echo "Requesting thesaurus.com to look up the word \"" . l:word . "\"..."
+    let l:word = substitute(a:word, '[!@#$%^&*()_+"]', '', 'g')
+
+    :1,$d
+
+    echo "Requesting thesaurus.com for \"" . l:word . "\"..."
     if has("unix")
         exec ":silent 0r !" . s:path . "/thesaurus-lookup.sh " . shellescape(l:word)
     elseif has("win32")
-        exec ":silent 0r !python" . s:path . "/thesaurus-lookup.py " . shellescape(l:word)
+        let s:win_path = substitute(s:path, "\"$", "", "")
+        let s:win_cmd = join([s:win_path, "\\thesaurus-lookup.py\" "], "")
+        exec ":silent 0r !python " . s:win_cmd . shellescape(l:word)
     endif
-    exec ":silent g/\\vrelevant-\\d+/,/^$/!" . s:sort . " -t ' ' -k 1,1r -k 2,2"
+    if has("unix")
+        exec ":silent g/\\vrelevant-\\d+/,/^$/!" . s:sort . " -t ' ' -k 1,1r -k 2,2"
+    endif
     silent g/\vrelevant-\d+ /s///
     silent! g/^Synonyms/+;/^$/-2s/$\n/, /
     silent g/^Synonyms:/ normal! JVgq
-    0
+
+    :0
+
     exec 'resize ' . (line('$') - 1)
     setlocal nomodifiable filetype=thesaurus
     nnoremap <silent> <buffer> q :q<CR>
