@@ -19,10 +19,11 @@ if len(sys.argv) > 1:
     word = regex.sub('+', sys.argv[1])
     req = requests.get(url + word)
     html = req.content.decode('utf-8', 'ignore')
-    soup = BeautifulSoup(html, from_encoding='utf-8')
+    soup = BeautifulSoup(html, from_encoding='ascii')
     syn_desc = soup.find(attrs={"class": "synonym-description"})
+
+    print "Main entry:", sys.argv[1]
     if syn_desc:
-        print "Main entry:", sys.argv[1]
         txt = syn_desc.find(attrs={"class": "txt"})
         ttl = syn_desc.find(attrs={"class": "ttl"})
         if txt and ttl:
@@ -39,3 +40,5 @@ if len(sys.argv) > 1:
                         relevancy = json_data['name']
                         synonym = a.span.get_text()
                         print "%s : %s" %(relevancy, synonym)
+    else:
+        print "\nDefinition:", "(nothing found)"
