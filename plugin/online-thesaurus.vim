@@ -2,7 +2,7 @@
 " Author:       Anton Beloglazov <http://beloglazov.info/>
 " Version:      0.2.4
 " Original idea and code: Nick Coleman <http://www.nickcoleman.org/>
-" Cross-platform support via `thesaurus-lookup.py`: Babil Golam Sarwar
+" Cross-platform support via Python `thesaurus-lookup.py`: Babil Golam Sarwar
 " (gsbabil@gmail.com)
 
 if exists("g:loaded_online_thesaurus")
