@@ -2,7 +2,7 @@
 
 __author__ = "Babil (Golam Sarwar)"
 __email__ = "gsbabil@gmail.com"
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __details__ = "Thesaurus.com lookup helper"
 
 import re
@@ -19,7 +19,7 @@ if len(sys.argv) > 1:
     word = regex.sub('+', sys.argv[1])
     req = requests.get(url + word)
     html = req.content.decode('utf-8', 'ignore')
-    soup = BeautifulSoup(html, from_encoding='ascii')
+    soup = BeautifulSoup(html, "html.parser", from_encoding='ascii')
     syn_desc = soup.find(attrs={"class": "synonym-description"})
 
     print "Main entry:", sys.argv[1]
